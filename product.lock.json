@@ -8,7 +8,7 @@
 
   "entities": {
     "Lock": ["actors", "author", "denied", "description", "entities", "features", "name", "permissions", "stories", "version"],
-    "Plan": [],
+    "PlanEntry": ["approach", "background", "constraints", "date", "expectedOutcome", "goal", "references", "risks", "scope", "steps", "title"],
     "Score": [],
     "Worklog": []
   },

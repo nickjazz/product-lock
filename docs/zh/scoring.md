@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 評分系統
-nav_order: 7
+nav_order: 8
 permalink: /zh/scoring
 lang: zh
 lang_label: 繁體中文

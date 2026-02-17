@@ -1,7 +1,7 @@
 ---
 layout: default
 title: 工作日誌
-nav_order: 8
+nav_order: 9
 permalink: /zh/worklog
 lang: zh
 lang_label: 繁體中文

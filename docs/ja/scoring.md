@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Scoring
-nav_order: 7
+nav_order: 8
 permalink: /ja/scoring
 lang: ja
 lang_label: 日本語

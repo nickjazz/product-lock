@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Worklog
-nav_order: 8
+nav_order: 9
 permalink: /ja/worklog
 lang: ja
 lang_label: 日本語
