@@ -14,6 +14,7 @@
   <a href="https://spec.productlock.org"><img src="https://img.shields.io/badge/Website-spec.productlock.org-blue?style=flat-square" alt="Website"></a>
   <a href="https://github.com/anthropics/product-lock/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"></a>
   <a href="product-lock-spec.md"><img src="https://img.shields.io/badge/Spec-v0.1.0-orange?style=flat-square" alt="Spec Version"></a>
+  <a href="https://www.npmjs.com/package/product-lock-mcp"><img src="https://img.shields.io/npm/v/product-lock-mcp?style=flat-square&label=MCP&color=purple" alt="MCP Server"></a>
 </p>
 
 <p align="center">
@@ -160,6 +161,7 @@ Lock 裡沒有路由、框架、依賴、檔案結構。
 | [Plan 規格](product-plan-spec.md) | AI Worker | product.plan.md 格式（HOW） |
 | [Scoring](product-lock-scoring.md) | 所有人 | 從 lock 量化產品複雜度 |
 | [Worklog](product-lock-worklog.md) | AI + 人類 | 追蹤跨 session 的變更、決策和範疇 |
+| [MCP Server](https://www.npmjs.com/package/product-lock-mcp) | AI Agent | 產生、審查、驗證 lock 的 MCP 工具 |
 
 ---
 
@@ -194,6 +196,47 @@ Lock 裡沒有路由、框架、依賴、檔案結構。
 > 「讀這份指南，然後對照 product.lock.json 審查這個 codebase。」
 
 兩個 AI。互不信任。一個產生，一個驗證。人類做最終決定。
+
+### 使用 MCP 工具（推薦）
+
+安裝 [product-lock-mcp](https://www.npmjs.com/package/product-lock-mcp) server，讓 AI 自動處理一切。
+
+**Claude Code 一行設定：**
+
+```bash
+claude mcp add product-lock -- npx product-lock-mcp
+```
+
+**或手動加到 MCP 設定檔**（`~/.claude/claude_desktop_config.json` 或專案 `.mcp.json`）：
+
+```json
+{
+  "mcpServers": {
+    "product-lock": {
+      "command": "npx",
+      "args": ["product-lock-mcp"]
+    }
+  }
+}
+```
+
+連接後，你的 AI agent 會獲得 5 個工具：
+
+| 工具 | 功能 |
+|------|------|
+| `generate_lock` | 掃描 codebase 並產生 product.lock.json |
+| `review_lock` | 對照 lock 審查程式碼 |
+| `validate_lock` | 執行 14 條結構驗證規則 |
+| `calculate_score` | 計算 Product Lock Score（PLS） |
+| `create_worklog` | 產生格式化的 worklog |
+
+然後直接跟 AI 說：
+
+> 「用 generate_lock 幫這個專案產生一個 product.lock.json。」
+
+> 「用 review_lock 檢查程式碼是否符合 lock。」
+
+不用複製貼上指南。MCP server 會自動注入上下文。
 
 ---
 

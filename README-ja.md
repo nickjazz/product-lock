@@ -14,6 +14,7 @@
   <a href="https://spec.productlock.org"><img src="https://img.shields.io/badge/Website-spec.productlock.org-blue?style=flat-square" alt="Website"></a>
   <a href="https://github.com/anthropics/product-lock/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"></a>
   <a href="product-lock-spec.md"><img src="https://img.shields.io/badge/Spec-v0.1.0-orange?style=flat-square" alt="Spec Version"></a>
+  <a href="https://www.npmjs.com/package/product-lock-mcp"><img src="https://img.shields.io/npm/v/product-lock-mcp?style=flat-square&label=MCP&color=purple" alt="MCP Server"></a>
 </p>
 
 <p align="center">
@@ -160,6 +161,7 @@ AIが`denied`にあるものを誤って追加した場合、Reviewerが違反�
 | [Plan 仕様](product-plan-spec.md) | AI Worker | product.plan.md形式（HOW） |
 | [Scoring](product-lock-scoring.md) | 全員 | lockからプロダクト複雑度を定量化 |
 | [Worklog](product-lock-worklog.md) | AI + 人間 | セッション横断で変更・決定・スコープを追跡 |
+| [MCP Server](https://www.npmjs.com/package/product-lock-mcp) | AIエージェント | lock生成・レビュー・検証用MCPツール |
 
 ---
 
@@ -194,6 +196,47 @@ AIが`denied`にあるものを誤って追加した場合、Reviewerが違反�
 > 「このガイドを読んで、このproduct.lock.jsonに対してこのコードベースをレビューして。」
 
 2つのAI。互いを信頼しない。1つが生成し、1つが検証する。人間が最終判断。
+
+### MCPツールを使う（推奨）
+
+[product-lock-mcp](https://www.npmjs.com/package/product-lock-mcp) サーバーをインストールして、AIに自動で処理させる。
+
+**Claude Codeワンライン設定：**
+
+```bash
+claude mcp add product-lock -- npx product-lock-mcp
+```
+
+**または手動でMCP設定に追加**（`~/.claude/claude_desktop_config.json` またはプロジェクトの `.mcp.json`）：
+
+```json
+{
+  "mcpServers": {
+    "product-lock": {
+      "command": "npx",
+      "args": ["product-lock-mcp"]
+    }
+  }
+}
+```
+
+接続すると、AIエージェントが5つのツールを取得：
+
+| ツール | 機能 |
+|--------|------|
+| `generate_lock` | コードベースをスキャンしてproduct.lock.jsonを生成 |
+| `review_lock` | lockに対してコードをレビュー |
+| `validate_lock` | 14の構造検証ルールを実行 |
+| `calculate_score` | Product Lock Score（PLS）を計算 |
+| `create_worklog` | フォーマットされたworklogを生成 |
+
+あとはAIに聞くだけ：
+
+> 「generate_lockを使って、このプロジェクトのproduct.lock.jsonを作って。」
+
+> 「review_lockを使って、コードがlockに合っているか確認して。」
+
+ガイドのコピペ不要。MCPサーバーが自動でコンテキストを注入する。
 
 ---
 

@@ -14,6 +14,7 @@
   <a href="https://spec.productlock.org"><img src="https://img.shields.io/badge/Website-spec.productlock.org-blue?style=flat-square" alt="Website"></a>
   <a href="https://github.com/anthropics/product-lock/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"></a>
   <a href="product-lock-spec.md"><img src="https://img.shields.io/badge/Spec-v0.1.0-orange?style=flat-square" alt="Spec Version"></a>
+  <a href="https://www.npmjs.com/package/product-lock-mcp"><img src="https://img.shields.io/npm/v/product-lock-mcp?style=flat-square&label=MCP&color=purple" alt="MCP Server"></a>
 </p>
 
 <p align="center">
@@ -160,6 +161,7 @@ Der Test: „Wenn KI das eigenmächtig hinzugefügt hat — wäre das ein Produk
 | [Plan-Spezifikation](product-plan-spec.md) | AI Worker | product.plan.md Format (das WIE) |
 | [Scoring](product-lock-scoring.md) | Alle | Produktkomplexität aus einem Lock quantifizieren |
 | [Worklog](product-lock-worklog.md) | KI + Mensch | Änderungen, Entscheidungen und Umfang über Sitzungen hinweg verfolgen |
+| [MCP Server](https://www.npmjs.com/package/product-lock-mcp) | KI-Agent | MCP-Tools zum Generieren, Prüfen und Validieren von Locks |
 
 ---
 
@@ -194,6 +196,47 @@ Gib den [Reviewer-Leitfaden](product-lock-reviewer-guide.md) einer *anderen* KI,
 > „Lies diesen Leitfaden, dann überprüfe diese Codebasis gegen diese product.lock.json."
 
 Zwei KIs. Sie vertrauen einander nicht. Eine generiert, eine verifiziert. Der Mensch trifft die endgültige Entscheidung.
+
+### MCP-Tools verwenden (empfohlen)
+
+Installiere den [product-lock-mcp](https://www.npmjs.com/package/product-lock-mcp) Server und lass die KI alles automatisch erledigen.
+
+**Einzeiler-Setup für Claude Code:**
+
+```bash
+claude mcp add product-lock -- npx product-lock-mcp
+```
+
+**Oder manuell zur MCP-Konfiguration hinzufügen** (`~/.claude/claude_desktop_config.json` oder Projekt `.mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "product-lock": {
+      "command": "npx",
+      "args": ["product-lock-mcp"]
+    }
+  }
+}
+```
+
+Nach der Verbindung erhält dein KI-Agent 5 Tools:
+
+| Tool | Funktion |
+|------|----------|
+| `generate_lock` | Codebasis scannen und product.lock.json generieren |
+| `review_lock` | Code gegen einen bestehenden Lock prüfen |
+| `validate_lock` | 14 strukturelle Validierungsregeln ausführen |
+| `calculate_score` | Product Lock Score (PLS) berechnen |
+| `create_worklog` | Formatiertes Worklog generieren |
+
+Dann frag einfach deine KI:
+
+> „Verwende generate_lock, um eine product.lock.json für dieses Projekt zu erstellen."
+
+> „Verwende review_lock, um zu prüfen, ob der Code zum Lock passt."
+
+Kein Copy-Paste von Leitfäden nötig. Der MCP-Server injiziert den Kontext automatisch.
 
 ---
 

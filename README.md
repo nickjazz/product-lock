@@ -14,6 +14,7 @@
   <a href="https://spec.productlock.org"><img src="https://img.shields.io/badge/Website-spec.productlock.org-blue?style=flat-square" alt="Website"></a>
   <a href="https://github.com/anthropics/product-lock/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"></a>
   <a href="product-lock-spec.md"><img src="https://img.shields.io/badge/Spec-v0.1.0-orange?style=flat-square" alt="Spec Version"></a>
+  <a href="https://www.npmjs.com/package/product-lock-mcp"><img src="https://img.shields.io/npm/v/product-lock-mcp?style=flat-square&label=MCP&color=purple" alt="MCP Server"></a>
 </p>
 
 <p align="center">
@@ -160,6 +161,7 @@ The test: "If AI added this on its own, would it be a product violation?" Yes â†
 | [Plan Spec](product-plan-spec.md) | AI Worker | product.plan.md format (the HOW) |
 | [Scoring](product-lock-scoring.md) | Everyone | Quantify product complexity from a lock |
 | [Worklog](product-lock-worklog.md) | AI + Human | Track changes, decisions, and scope across sessions |
+| [MCP Server](https://www.npmjs.com/package/product-lock-mcp) | AI Agent | MCP tools for generating, reviewing, validating locks |
 
 ---
 
@@ -194,6 +196,47 @@ Give the [Reviewer Guide](product-lock-reviewer-guide.md) to a *different* AI, a
 > "Read this guide, then review this codebase against this product.lock.json."
 
 Two AIs. They don't trust each other. One generates, one verifies. Human makes the final call.
+
+### Use MCP Tools (recommended)
+
+Install the [product-lock-mcp](https://www.npmjs.com/package/product-lock-mcp) server and let AI handle everything automatically.
+
+**One-line setup for Claude Code:**
+
+```bash
+claude mcp add product-lock -- npx product-lock-mcp
+```
+
+**Or add to MCP config manually** (`~/.claude/claude_desktop_config.json` or project `.mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "product-lock": {
+      "command": "npx",
+      "args": ["product-lock-mcp"]
+    }
+  }
+}
+```
+
+Once connected, your AI agent gets 5 tools:
+
+| Tool | What it does |
+|------|-------------|
+| `generate_lock` | Scan your codebase and generate a product.lock.json |
+| `review_lock` | Review code against an existing lock |
+| `validate_lock` | Run 14 structural validation rules |
+| `calculate_score` | Calculate Product Lock Score (PLS) |
+| `create_worklog` | Generate a formatted worklog |
+
+Then just ask your AI:
+
+> "Use generate_lock to create a product.lock.json for this project."
+
+> "Use review_lock to check if the code matches the lock."
+
+No need to copy-paste guides. The MCP server handles context injection automatically.
 
 ---
 
