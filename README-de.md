@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <a href="https://productlock.org"><img src="https://img.shields.io/badge/Website-productlock.org-blue?style=flat-square" alt="Website"></a>
+  <a href="https://spec.productlock.org"><img src="https://img.shields.io/badge/Website-spec.productlock.org-blue?style=flat-square" alt="Website"></a>
   <a href="https://github.com/anthropics/product-lock/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"></a>
   <a href="product-lock-spec.md"><img src="https://img.shields.io/badge/Spec-v0.1.0-orange?style=flat-square" alt="Spec Version"></a>
 </p>
