@@ -152,6 +152,7 @@ The test: "If AI added this on its own, would it be a product violation?" Yes â†
 | [Reviewer Guide](product-lock-reviewer-guide.md) | AI Reviewer | How to verify code against a lock |
 | [Plan Spec](product-plan-spec.md) | AI Worker | product.plan.md format (the HOW) |
 | [Scoring](product-lock-scoring.md) | Everyone | Quantify product complexity from a lock |
+| [Worklog](product-lock-worklog.md) | AI + Human | Track changes, decisions, and scope across sessions |
 
 ---
 
