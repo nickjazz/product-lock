@@ -82,19 +82,49 @@ The loop is closed when every change is traceable: from the lock that authorized
 
 ## 3. File Format
 
-The file MUST be named `product.worklog.md` and placed in the project root alongside `product.lock.json`.
+Worklogs are stored in a `worklogs/` directory in the project root, alongside `product.lock.json`. Each session is one file.
 
-Entries are appended in reverse chronological order (newest first). Each entry is a session — one block of work by one agent or developer.
+```
+project-root/
+├── product.lock.json
+├── product.plan.md
+└── worklogs/
+    ├── 2026-02-16-initial-release.md
+    ├── 2026-02-17-add-payment-system.md
+    ├── 2026-02-17T1430-fix-payment-webhook.md
+    └── ...
+```
+
+### File naming
+
+```
+{date}-{kebab-case-title}.md
+```
+
+| Part | Format | Example |
+|------|--------|---------|
+| Date | `YYYY-MM-DD` | `2026-02-17` |
+| Date (same day) | `YYYY-MM-DDTHHmm` | `2026-02-17T1430` |
+| Title | kebab-case, under 60 chars | `add-payment-system` |
+
+Examples:
+```
+2026-02-16-initial-release.md
+2026-02-17-add-payment-system.md
+2026-02-17T1430-fix-payment-webhook.md
+2026-02-18-refactor-auth-middleware.md
+```
+
+### File listing order
+
+Files sort naturally by name (date prefix ensures chronological order). To find the latest entry, sort descending or look at the last file.
+
+### Each file is one session
+
+One file = one session = one focused block of work. Each file follows the template below:
 
 ```markdown
-# Product Worklog: {name}
-
-> Lock: product.lock.json
-> Started: {first-entry-date}
-
----
-
-## [{date}] {title}
+# [{date}] {title}
 
 ### Context
 - Branch: `feature/xxx`
@@ -135,8 +165,6 @@ Entries are appended in reverse chronological order (newest first). Each entry i
 
 ### Next
 {What the next session should pick up.}
-
----
 ```
 
 ---
@@ -477,45 +505,50 @@ A jump of +50 or more in a single session, or a level boundary crossing, SHOULD 
 
 ## 8. Conventions
 
-### 8.1 File naming
+### 8.1 Directory structure
 
-- Worklog file: `product.worklog.md`
-- Location: project root, alongside `product.lock.json`
-- One worklog per product (matches one lock per product)
+- Directory: `worklogs/` in project root
+- One directory per product (matches one lock per product)
+- Each file is one session
 
-### 8.2 Entry ordering
-
-Newest entries first (reverse chronological). When reading, the latest entry is always at the top.
-
-### 8.3 Date format
-
-ISO 8601: `YYYY-MM-DD`. Include time only if multiple entries on the same day.
-
-```markdown
-## [2026-02-17] Add payment system          ← date only
-## [2026-02-17T14:30] Fix payment webhook   ← date + time (same day, second entry)
+```
+project-root/
+├── product.lock.json
+└── worklogs/
+    ├── 2026-02-16-initial-release.md
+    └── 2026-02-17-add-payment-system.md
 ```
 
-### 8.4 Titles
+### 8.2 File naming
 
-Entry titles SHOULD be imperative and concise (under 60 characters):
+```
+{YYYY-MM-DD}-{kebab-case-title}.md
+```
+
+- Date prefix ensures chronological sort
+- Title is imperative, kebab-case, under 60 characters
+- If multiple sessions on same day, use `{YYYY-MM-DD}T{HHmm}-{title}.md`
+
+### 8.3 Titles
+
+Imperative and concise:
 
 | Good | Bad |
 |------|-----|
-| Add payment system | Added the payment system and also fixed some bugs |
-| Fix auth middleware | Authentication middleware was broken and I fixed it |
-| Remove legacy billing | Cleaned up old billing code |
+| `add-payment-system` | `added-the-payment-system-and-also-fixed-some-bugs` |
+| `fix-auth-middleware` | `authentication-middleware-was-broken` |
+| `remove-legacy-billing` | `cleaned-up-old-billing-code` |
 
-### 8.5 Cross-referencing
+### 8.4 Cross-referencing
 
-When referencing other entries, use the date-title format:
+When referencing other entries, use the filename:
 
 ```markdown
-Continues from [2026-02-14] Set up Stripe integration.
-See [2026-02-12] Define payment entities for the schema decisions.
+Continues from `2026-02-14-setup-stripe-integration.md`.
+See `2026-02-12-define-payment-entities.md` for schema decisions.
 ```
 
-### 8.6 Naming conventions
+### 8.5 Naming conventions
 
 Follow lock conventions within the worklog:
 
@@ -525,6 +558,15 @@ Follow lock conventions within the worklog:
 | Feature names | camelCase | `Feature: createPayment` |
 | Actor names | PascalCase | `Actor: Subscriber` |
 | File paths | relative from root | `src/models/payment.ts` |
+
+### 8.6 Reading order
+
+To reconstruct context, an AI agent SHOULD:
+
+1. Read the **latest** worklog file (last by filename sort)
+2. Check the **Next** section for pending work
+3. Read additional recent files if more context is needed
+4. Read the lock for product boundary
 
 ---
 
