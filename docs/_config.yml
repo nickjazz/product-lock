@@ -1,24 +1,20 @@
-remote_theme: just-the-docs/just-the-docs@latest
+remote_theme: just-the-docs/just-the-docs
 
 title: Product Lock
 description: A product boundary specification for humans and AI.
-url: https://nickjazz.github.io
-baseurl: /product-lock
+url: https://productlock.org
+baseurl: ""
 
 plugins:
   - jekyll-remote-theme
-  - jekyll-seo-tag
 
 color_scheme: dark
 
-logo: /logo.png
-
 aux_links:
-  GitHub: https://github.com/nickjazz/product-lock
+  GitHub:
+    - https://github.com/nickjazz/product-lock
 
 aux_links_new_tab: true
-
-footer_content: "Product Lock is released under the <a href=\"https://github.com/nickjazz/product-lock/blob/main/LICENSE\">MIT License</a>."
 
 nav_sort: case_insensitive
 
@@ -30,12 +26,18 @@ search:
 back_to_top: true
 back_to_top_text: "Back to top"
 
-last_edit_timestamp: true
-last_edit_time_format: "%b %e %Y at %I:%M %p"
-
 exclude:
   - README.md
   - README-zh-TW.md
   - README-ja.md
   - README-de.md
   - LICENSE
+  - product-lock-spec.md
+  - product-lock-spec-zh.md
+  - product-lock-generator-guide.md
+  - product-lock-reviewer-guide.md
+  - product-lock-scoring.md
+  - product-lock-worklog.md
+  - product-plan-spec.md
+  - product.lock.json
+  - worklogs
