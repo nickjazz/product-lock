@@ -2,7 +2,10 @@
 layout: default
 title: Plan Spec
 nav_order: 6
-permalink: /plan-spec
+permalink: /en/plan-spec
+lang: en
+lang_label: English
+page_id: plan-spec
 ---
 
 # Product Plan Specification
@@ -15,7 +18,7 @@ permalink: /plan-spec
 >
 > Plan is for AI to read. Humans can skip it, but when something goes wrong, humans can understand it.
 
-For the full lock specification, see the [Product Lock Specification](https://productlock.org).
+For the full lock specification, see the [Product Lock Specification](https://spec.productlock.org).
 
 ---
 
@@ -396,4 +399,4 @@ The plan uses **target language conventions**, not lock conventions.
 
 ---
 
-*This specification is part of the [Product Lock Specification](https://productlock.org).*
+*This specification is part of the [Product Lock Specification](https://spec.productlock.org).*

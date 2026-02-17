@@ -2,7 +2,10 @@
 layout: default
 title: Generator Guide
 nav_order: 4
-permalink: /generator-guide
+permalink: /en/generator-guide
+lang: en
+lang_label: English
+page_id: generator-guide
 ---
 
 # Product Lock Generator Guide
@@ -13,7 +16,7 @@ permalink: /generator-guide
 >
 > You generate the lock. A human approves it. An AI Reviewer verifies code against it.
 
-For the full specification, see the [Product Lock Specification](https://productlock.org).
+For the full specification, see the [Product Lock Specification](https://spec.productlock.org).
 
 ---
 
@@ -546,4 +549,4 @@ Generated lock:
 
 ---
 
-*This guide is part of the [Product Lock Specification](https://productlock.org).*
+*This guide is part of the [Product Lock Specification](https://spec.productlock.org).*

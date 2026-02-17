@@ -2,7 +2,10 @@
 layout: default
 title: Specification
 nav_order: 2
-permalink: /specification
+permalink: /en/specification
+lang: en
+lang_label: English
+page_id: specification
 ---
 
 # Product Lock Specification
@@ -697,4 +700,4 @@ These features are not part of v0.1 but may be added in future versions:
 ---
 
 *Product Lock Specification is licensed under [MIT License](https://opensource.org/licenses/MIT).*
-*Specification source: [productlock.org](https://productlock.org)*
+*Specification source: [productlock.org](https://spec.productlock.org)*

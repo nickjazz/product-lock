@@ -7,7 +7,7 @@
 <h1 align="center">product.lock.json</h1>
 
 <p align="center">
-  Eine Produktgrenzen-Spezifikation für Menschen und KI.
+  Manage KI so, wie du Teams managst.
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 
 ---
 
-**KI kann jetzt Code schreiben. Aber wer hindert sie daran, Dinge hinzuzufügen, die nie verlangt wurden?**
+**Deine Management-Erfahrung — Scope-Kontrolle, Review-Prozesse, Entscheidungs-Tracking — als Protokoll, dem KI folgen kann.**
 
 product.lock.json definiert die Grenze eines Softwareprodukts — was es **ist** und was es **nicht ist**. Egal welche Sprache, welches Framework oder welche Architektur. Die Grenze bleibt gleich.
 

@@ -2,7 +2,10 @@
 layout: default
 title: Worklog
 nav_order: 8
-permalink: /worklog
+permalink: /en/worklog
+lang: en
+lang_label: English
+page_id: worklog
 ---
 
 # Product Lock Worklog Specification
@@ -15,7 +18,7 @@ permalink: /worklog
 >
 > Together, these four files reconstruct full project context — across sessions, across agents, across time.
 
-For the full specification, see the [Product Lock Specification](https://productlock.org).
+For the full specification, see the [Product Lock Specification](https://spec.productlock.org).
 
 ---
 
@@ -570,4 +573,4 @@ To reconstruct context, an AI agent SHOULD:
 
 ---
 
-*This specification is part of the [Product Lock Specification](https://productlock.org).*
+*This specification is part of the [Product Lock Specification](https://spec.productlock.org).*

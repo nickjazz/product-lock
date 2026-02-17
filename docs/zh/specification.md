@@ -1,8 +1,11 @@
 ---
 layout: default
-title: 規格書（中文）
-nav_order: 3
-permalink: /specification-zh
+title: 規格書
+nav_order: 2
+permalink: /zh/specification
+lang: zh
+lang_label: 繁體中文
+page_id: specification
 ---
 
 # Product Lock 規格書
@@ -697,4 +700,4 @@ v0.1 不支援。未來版本可能支援 `x-` 前綴的擴充欄位。目前只
 ---
 
 *Product Lock Specification 採用 [MIT License](https://opensource.org/licenses/MIT) 授權。*
-*規格來源：[productlock.org](https://productlock.org)*
+*規格來源：[productlock.org](https://spec.productlock.org)*

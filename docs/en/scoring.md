@@ -2,7 +2,10 @@
 layout: default
 title: Scoring
 nav_order: 7
-permalink: /scoring
+permalink: /en/scoring
+lang: en
+lang_label: English
+page_id: scoring
 ---
 
 # Product Lock Scoring
@@ -13,7 +16,7 @@ permalink: /scoring
 >
 > Same lock, same score. The score measures product complexity, not code complexity.
 
-For the full specification, see the [Product Lock Specification](https://productlock.org).
+For the full specification, see the [Product Lock Specification](https://spec.productlock.org).
 
 ---
 
@@ -283,4 +286,4 @@ v2.1.0 → v3.0.0: PLS 210 → 340 (+130)    // Red flag: scope may be creeping
 
 ---
 
-*This scoring system is part of the [Product Lock Specification](https://productlock.org).*
+*This scoring system is part of the [Product Lock Specification](https://spec.productlock.org).*

@@ -1,0 +1,376 @@
+{% assign lang = page.lang | default: "en" %}
+{% assign t = site.data.home[lang] %}
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.title }} — {{ site.description }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="icon" href="{{ '/logo.png' | relative_url }}" type="image/png">
+  {% include theme.html %}
+  <style>
+    /* ===== Home Layout ===== */
+    .hero {
+      max-width: 720px;
+      margin: 80px auto 0;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--text-s);
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero h1 code {
+      background: linear-gradient(135deg, var(--hero-g1), var(--hero-g2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+    }
+    .hero p {
+      font-size: 18px;
+      color: var(--text-s);
+      max-width: 540px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* Flow */
+    .flow {
+      max-width: 800px;
+      margin: 48px auto 0;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .flow-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      background: var(--bg-s);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 6px;
+      color: var(--text-s);
+      font-size: 13px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .flow-arrow { color: var(--text-m); font-size: 14px; }
+
+    /* Section */
+    .home-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 24px 0;
+    }
+    .section-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .home-section h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+    .home-section > p {
+      font-size: 16px;
+      color: var(--text-s);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+
+    /* Fields grid */
+    .fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+    .field-item {
+      display: flex;
+      gap: 16px;
+      padding: 20px;
+      background: var(--bg-s);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.2s, background 0.3s;
+    }
+    .field-item:hover { border-color: var(--border-h); }
+    .field-icon {
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--text);
+    }
+    .field-icon svg { width: 20px; height: 20px; }
+    .field-item h4 {
+      font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px;
+    }
+    .field-item h4 code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px; color: var(--accent-l);
+      background: none; border: none; padding: 0;
+    }
+    .field-item p { font-size: 13px; color: var(--text-m); margin: 0; }
+
+    /* Code example */
+    .example { max-width: 1100px; margin: 0 auto; padding: 100px 24px 0; }
+    .code-block {
+      background: var(--bg-s);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      overflow-x: auto;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .code-block pre {
+      font-family: 'JetBrains Mono', 'SF Mono', monospace;
+      font-size: 13px; line-height: 1.7; color: var(--code-text);
+    }
+    .code-block .key { color: var(--link); }
+    .code-block .string { color: var(--tag-guide); }
+    .code-block .bracket { color: var(--text-m); }
+
+    /* Roles */
+    .roles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+    .role {
+      background: var(--bg-s);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      transition: border-color 0.2s, background 0.3s;
+    }
+    .role:hover { border-color: var(--border-h); }
+    .role-icon { margin-bottom: 12px; color: var(--text); }
+    .role-icon svg { width: 32px; height: 32px; }
+    .role h4 { font-size: 16px; color: var(--text); margin-bottom: 8px; }
+    .role p { font-size: 13px; color: var(--text-m); line-height: 1.5; margin: 0; }
+
+    /* Doc cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--bg-s);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: border-color 0.2s, background 0.3s, transform 0.2s;
+      display: block;
+    }
+    .card:hover { border-color: var(--border-h); transform: translateY(-2px); color: inherit; }
+    .card-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      padding: 3px 8px; border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .tag-spec { background: var(--tag-spec-bg); color: var(--tag-spec); }
+    .tag-guide { background: var(--tag-guide-bg); color: var(--tag-guide); }
+    .tag-tool { background: var(--tag-tool-bg); color: var(--tag-tool); }
+    .card h3 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .card p { font-size: 14px; color: var(--text-m); line-height: 1.6; margin-bottom: 16px; }
+    .card-link { font-size: 13px; font-weight: 500; color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .hero { margin-top: 48px; }
+      .hero h1 { font-size: 32px; }
+      .hero p { font-size: 16px; }
+      .roles { grid-template-columns: 1fr; }
+      .flow-diagram { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="site-nav">
+    <a href="{% if lang == 'zh' %}{{ '/zh/' | relative_url }}{% else %}{{ '/' | relative_url }}{% endif %}" class="nav-brand">
+      <img src="{{ '/logo.png' | relative_url }}" alt="Product Lock">
+      Product Lock
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="{{ '/' | append: lang | append: '/specification' | relative_url }}">{{ t.nav_spec }}</a>
+        <a href="{{ '/' | append: lang | append: '/generator-guide' | relative_url }}">{{ t.nav_gen }}</a>
+        <a href="{{ '/' | append: lang | append: '/reviewer-guide' | relative_url }}">{{ t.nav_rev }}</a>
+        <a href="https://github.com/nickjazz/product-lock" target="_blank">GitHub</a>
+      </div>
+      <div class="lang-dropdown">
+        <button class="lang-btn" onclick="toggleLang(event)" aria-label="Switch language">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          {% assign translations = site.pages | where: "page_id", page.page_id | sort: "lang" %}
+          {% for tr in translations %}
+            {% if tr.lang == lang %}
+              <span class="lang-option active">{{ tr.lang_label }}</span>
+            {% else %}
+              <a href="{{ tr.permalink | relative_url }}" class="lang-option">{{ tr.lang_label }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">{{ t.hero_badge }}</div>
+    <h1>{{ t.hero_title }}</h1>
+    <p>{{ t.hero_desc }}</p>
+    <div class="hero-buttons">
+      <a href="{{ '/' | append: lang | append: '/specification' | relative_url }}" class="btn btn-primary">{{ t.btn_spec }}</a>
+      <a href="https://github.com/nickjazz/product-lock" class="btn btn-secondary" target="_blank">{{ t.btn_github }}</a>
+    </div>
+  </div>
+
+  <!-- Flow -->
+  <div class="flow">
+    <div class="flow-diagram">
+      {% for step in t.flow %}
+        {% unless forloop.first %}<span class="flow-arrow">&rarr;</span>{% endunless %}
+        <span class="flow-step">{{ step }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- 6 Fields -->
+  <div class="home-section">
+    <div class="section-label">{{ t.fields_label }}</div>
+    <h2>{{ t.fields_title }}</h2>
+    <p>{{ t.fields_desc }}</p>
+    <div class="fields-grid">
+      <div class="field-item">
+        <div class="field-icon" style="background:var(--field-1);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <div><h4><code>actors</code></h4><p>{{ t.field_actors }}</p></div>
+      </div>
+      <div class="field-item">
+        <div class="field-icon" style="background:var(--field-2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg></div>
+        <div><h4><code>entities</code></h4><p>{{ t.field_entities }}</p></div>
+      </div>
+      <div class="field-item">
+        <div class="field-icon" style="background:var(--field-3);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div><h4><code>features</code></h4><p>{{ t.field_features }}</p></div>
+      </div>
+      <div class="field-item">
+        <div class="field-icon" style="background:var(--field-4);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div><h4><code>stories</code></h4><p>{{ t.field_stories }}</p></div>
+      </div>
+      <div class="field-item">
+        <div class="field-icon" style="background:var(--field-5);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></div>
+        <div><h4><code>permissions</code></h4><p>{{ t.field_permissions }}</p></div>
+      </div>
+      <div class="field-item">
+        <div class="field-icon" style="background:var(--field-6);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg></div>
+        <div><h4><code>denied</code></h4><p>{{ t.field_denied }}</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Example -->
+  <div class="example">
+    <div class="section-label">{{ t.example_label }}</div>
+    <h2 style="font-size:32px;font-weight:700;color:var(--text);margin-bottom:16px;">{{ t.example_title }}</h2>
+    <p style="font-size:16px;color:var(--text-s);max-width:600px;margin-bottom:32px;">{{ t.example_desc }}</p>
+    <div class="code-block"><pre><span class="bracket">{</span>
+  <span class="key">"name"</span>: <span class="string">"chat-system"</span>,
+  <span class="key">"version"</span>: <span class="string">"1.0.0"</span>,
+  <span class="key">"description"</span>: <span class="string">"Real-time chat with group conversations and read receipts"</span>,
+  <span class="key">"author"</span>: <span class="string">"kim"</span>,
+
+  <span class="key">"actors"</span>: [<span class="string">"Admin"</span>, <span class="string">"Guest"</span>, <span class="string">"Member"</span>],
+
+  <span class="key">"features"</span>: [<span class="string">"createGroup"</span>, <span class="string">"listConversations"</span>, <span class="string">"readReceipts"</span>, <span class="string">"sendMessage"</span>],
+
+  <span class="key">"denied"</span>: <span class="bracket">{</span>
+    <span class="key">"Reaction"</span>: <span class="string">"Keep messaging simple, no emoji reactions"</span>,
+    <span class="key">"editMessage"</span>: <span class="string">"Messages are immutable once sent"</span>,
+    <span class="key">"voiceCall"</span>: <span class="string">"Text-based communication only"</span>
+  <span class="bracket">}</span>
+<span class="bracket">}</span></pre></div>
+  </div>
+
+  <!-- Three Roles -->
+  <div class="home-section">
+    <div class="section-label">{{ t.trust_label }}</div>
+    <h2>{{ t.trust_title }}</h2>
+    <p>{{ t.trust_desc }}</p>
+    <div class="roles">
+      <div class="role">
+        <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h4>{{ t.role_human_name }}</h4>
+        <p>{{ t.role_human_desc }}</p>
+      </div>
+      <div class="role">
+        <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></div>
+        <h4>{{ t.role_worker_name }}</h4>
+        <p>{{ t.role_worker_desc }}</p>
+      </div>
+      <div class="role">
+        <div class="role-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <h4>{{ t.role_reviewer_name }}</h4>
+        <p>{{ t.role_reviewer_desc }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation -->
+  <div class="home-section">
+    <div class="section-label">{{ t.docs_label }}</div>
+    <h2>{{ t.docs_title }}</h2>
+    <p>{{ t.docs_desc }}</p>
+    <div class="cards">
+      {% for card in t.cards %}
+        <a href="{{ card.url | relative_url }}" class="card">
+          <span class="card-tag tag-{{ card.tag }}">{{ card.tag_label }}</span>
+          <h3>{{ card.title }}</h3>
+          <p>{{ card.desc }}</p>
+          <span class="card-link">{{ card.link }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <span>&copy; 2026 Product Lock &middot; MIT License</span>
+    <span><a href="https://github.com/nickjazz/product-lock" target="_blank">GitHub</a></span>
+  </footer>
+
+</body>
+</html>

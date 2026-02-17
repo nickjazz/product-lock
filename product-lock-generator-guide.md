@@ -6,7 +6,7 @@
 >
 > You generate the lock. A human approves it. An AI Reviewer verifies code against it.
 
-For the full specification, see the [Product Lock Specification](https://productlock.org).
+For the full specification, see the [Product Lock Specification](https://spec.productlock.org).
 
 ---
 
@@ -539,4 +539,4 @@ Generated lock:
 
 ---
 
-*This guide is part of the [Product Lock Specification](https://productlock.org).*
+*This guide is part of the [Product Lock Specification](https://spec.productlock.org).*

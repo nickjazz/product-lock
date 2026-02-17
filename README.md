@@ -7,7 +7,7 @@
 <h1 align="center">product.lock.json</h1>
 
 <p align="center">
-  A product boundary specification for humans and AI.
+  Manage AI like you manage teams.
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 
 ---
 
-**AI can write code now. But who stops it from adding stuff you never asked for?**
+**Your management experience — scope control, review processes, decision tracking — encoded as a protocol AI can follow.**
 
 product.lock.json defines a software product's boundary — what it **is** and what it **is not**. Doesn't matter what language, framework, or architecture. The boundary is the same.
 

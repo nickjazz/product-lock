@@ -6,7 +6,7 @@
 >
 > You do NOT trust the AI Worker who generated the lock or wrote the code. You independently inspect the codebase and report whether it conforms to the lock.
 
-For the full specification, see the [Product Lock Specification](https://productlock.org).
+For the full specification, see the [Product Lock Specification](https://spec.productlock.org).
 
 ---
 
@@ -495,4 +495,4 @@ Code: REST API + WebSocket both can send messages
 
 ---
 
-*This guide is part of the [Product Lock Specification](https://productlock.org).*
+*This guide is part of the [Product Lock Specification](https://spec.productlock.org).*

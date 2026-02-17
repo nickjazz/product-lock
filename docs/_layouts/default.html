@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'en' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} — {{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="icon" href="{{ '/logo.png' | relative_url }}" type="image/png">
+  {% include theme.html %}
+  <style>
+    /* ===== Content Page Layout ===== */
+    .page-wrapper {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: calc(100vh - 140px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      padding: 24px 16px;
+      border-right: 1px solid var(--border);
+      background: var(--sidebar-bg);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .sidebar-group { margin-bottom: 24px; }
+    .sidebar-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-m);
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+    .sidebar-link {
+      display: block;
+      padding: 7px 12px;
+      font-size: 14px;
+      color: var(--text-s);
+      border-radius: 6px;
+      transition: all 0.15s;
+      margin-bottom: 1px;
+    }
+    .sidebar-link:hover { color: var(--text); background: var(--bg-t); }
+    .sidebar-link.active {
+      color: var(--nav-active-text);
+      background: var(--nav-active-bg);
+      font-weight: 500;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 32px 48px 80px;
+    }
+
+    /* Mobile sidebar */
+    .sidebar-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 8px;
+      cursor: pointer;
+      color: var(--text-s);
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .sidebar-toggle:hover { border-color: var(--border-h); color: var(--text); }
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+
+    @media (max-width: 900px) {
+      .sidebar-toggle { display: flex; }
+      .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        z-index: 100;
+        height: 100vh;
+        width: 260px;
+        transition: left 0.3s ease, background 0.3s;
+        box-shadow: none;
+      }
+      .sidebar.open { left: 0; box-shadow: 4px 0 20px var(--shadow); }
+      .sidebar-overlay.open { display: block; }
+      .main-content { padding: 24px 20px 60px; }
+    }
+
+    .content ol > li > a { color: var(--link); }
+
+    .back-top {
+      display: inline-block;
+      margin-top: 3rem;
+      font-size: 13px;
+      color: var(--text-m);
+    }
+    .back-top:hover { color: var(--text-s); }
+  </style>
+</head>
+<body>
+
+  {% assign current_lang = page.lang | default: "en" %}
+  {% assign lang_pages = site.pages | where: "lang", current_lang | sort: "nav_order" %}
+
+  <!-- Nav -->
+  <nav class="site-nav">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <a href="{{ '/' | relative_url }}" class="nav-brand">
+        <img src="{{ '/logo.png' | relative_url }}" alt="Product Lock">
+        Product Lock
+      </a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-links">
+        {% assign spec_page = lang_pages | where: "page_id", "specification" | first %}
+        {% assign gen_page = lang_pages | where: "page_id", "generator-guide" | first %}
+        {% assign rev_page = lang_pages | where: "page_id", "reviewer-guide" | first %}
+        <a href="{{ spec_page.permalink | default: '/en/specification' | relative_url }}">Spec</a>
+        <a href="{{ gen_page.permalink | default: '/en/generator-guide' | relative_url }}">Generator</a>
+        <a href="{{ rev_page.permalink | default: '/en/reviewer-guide' | relative_url }}">Reviewer</a>
+        <a href="https://github.com/nickjazz/product-lock" target="_blank">GitHub</a>
+      </div>
+      <div class="lang-dropdown">
+        <button class="lang-btn" onclick="toggleLang(event)" aria-label="Switch language">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          {% if page.page_id %}
+            {% assign translations = site.pages | where: "page_id", page.page_id | sort: "lang" %}
+            {% for t in translations %}
+              {% if t.lang == current_lang %}
+                <span class="lang-option active">{{ t.lang_label }}</span>
+              {% else %}
+                <a href="{{ t.permalink | relative_url }}" class="lang-option">{{ t.lang_label }}</a>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <span class="lang-option active">English</span>
+          {% endif %}
+        </div>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+  <div class="page-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-label">Specification</div>
+        {% for p in lang_pages %}
+          {% if p.nav_order >= 2 and p.nav_order <= 3 %}
+          <a href="{{ p.permalink | relative_url }}" class="sidebar-link {% if page.page_id == p.page_id %}active{% endif %}">{{ p.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-label">Guides</div>
+        {% for p in lang_pages %}
+          {% if p.nav_order >= 4 and p.nav_order <= 5 %}
+          <a href="{{ p.permalink | relative_url }}" class="sidebar-link {% if page.page_id == p.page_id %}active{% endif %}">{{ p.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-label">Tools</div>
+        {% for p in lang_pages %}
+          {% if p.nav_order >= 6 %}
+          <a href="{{ p.permalink | relative_url }}" class="sidebar-link {% if page.page_id == p.page_id %}active{% endif %}">{{ p.title }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="main-content">
+      <div class="content">
+        {{ content }}
+      </div>
+      <a href="#" class="back-top">&uarr; Back to top</a>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <span>&copy; 2026 Product Lock &middot; MIT License</span>
+    <span><a href="https://github.com/nickjazz/product-lock" target="_blank">GitHub</a></span>
+  </footer>
+
+  <script>
+  function toggleSidebar(){
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+  </script>
+
+</body>
+</html>
