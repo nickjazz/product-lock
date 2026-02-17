@@ -16,6 +16,13 @@
   <a href="product-lock-spec.md"><img src="https://img.shields.io/badge/Spec-v0.1.0-orange?style=flat-square" alt="Spec Version"></a>
 </p>
 
+<p align="center">
+  <strong>English</strong> ·
+  <a href="README-zh-TW.md">繁體中文</a> ·
+  <a href="README-ja.md">日本語</a> ·
+  <a href="README-de.md">Deutsch</a>
+</p>
+
 ---
 
 **AI can write code now. But who stops it from adding stuff you never asked for?**
